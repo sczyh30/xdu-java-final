@@ -1,5 +1,6 @@
 package io.sczyh30.pim.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -7,6 +8,7 @@ import io.vertx.core.json.JsonObject;
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PIMContact extends PIMEntity {
 
   private String firstName;
@@ -15,10 +17,6 @@ public class PIMContact extends PIMEntity {
 
   public PIMContact() {
     super();
-  }
-
-  public PIMContact(JsonObject json) {
-
   }
 
   public PIMContact(String firstName, String lastName, String email) {
@@ -30,8 +28,9 @@ public class PIMContact extends PIMEntity {
 
   @Override
   public JsonObject toJson() {
-    JsonObject json = new JsonObject();
-    return json;
+    JsonObject json = JsonObject.mapFrom(this)
+      .put("type", "contact");
+    return preProcessJson(json);
   }
 
   public String getFirstName() {

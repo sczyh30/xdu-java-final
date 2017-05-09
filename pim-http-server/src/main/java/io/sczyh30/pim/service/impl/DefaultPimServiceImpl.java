@@ -1,5 +1,6 @@
 package io.sczyh30.pim.service.impl;
 
+import io.sczyh30.pim.common.date.DateUtils;
 import io.sczyh30.pim.common.util.Utils;
 import io.sczyh30.pim.entity.EntityWithDate;
 import io.sczyh30.pim.entity.PIMAppointment;
@@ -49,7 +50,10 @@ public class DefaultPimServiceImpl implements PimService {
       query.put("owner", owner);
     }
     return client.rxFind(COLLECTION, query)
-      .map(r -> r.stream().map(PIMNote::new).collect(Collectors.toList()));
+      .map(r -> r.stream()
+        .map(json -> Utils.fromJson(json, PIMNote.class))
+        .collect(Collectors.toList())
+      );
   }
 
   @Override
@@ -64,7 +68,10 @@ public class DefaultPimServiceImpl implements PimService {
       query.put("owner", owner);
     }
     return client.rxFind(COLLECTION, query)
-      .map(r -> r.stream().map(PIMTodo::new).collect(Collectors.toList()));
+      .map(r -> r.stream()
+        .map(json -> Utils.fromJson(json, PIMTodo.class))
+        .collect(Collectors.toList())
+      );
   }
 
   @Override
@@ -79,7 +86,10 @@ public class DefaultPimServiceImpl implements PimService {
       query.put("owner", owner);
     }
     return client.rxFind(COLLECTION, query)
-      .map(r -> r.stream().map(PIMAppointment::new).collect(Collectors.toList()));
+      .map(r -> r.stream()
+        .map(json -> Utils.fromJson(json, PIMAppointment.class))
+        .collect(Collectors.toList())
+      );
   }
 
   @Override
@@ -94,17 +104,32 @@ public class DefaultPimServiceImpl implements PimService {
       query.put("owner", owner);
     }
     return client.rxFind(COLLECTION, query)
-      .map(r -> r.stream().map(PIMContact::new).collect(Collectors.toList()));
+      .map(r -> r.stream()
+        .map(json -> Utils.fromJson(json, PIMContact.class))
+        .collect(Collectors.toList())
+      );
   }
 
   @Override
   public Single<List<EntityWithDate>> getItemsForDate(LocalDate date) {
-    return null;
+    return getItemsForDate(date, null);
   }
 
   @Override
   public Single<List<EntityWithDate>> getItemsForDate(LocalDate date, String owner) {
-    return null;
+    JsonObject query = new JsonObject().put("date", DateUtils.dateToString(date));
+    if (owner != null) {
+      query.put("owner", owner);
+    }
+    return client.rxFind(COLLECTION, query)
+      .map(list -> list.stream()
+        .map(Utils::entityFromJson)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(r -> r instanceof EntityWithDate)
+        .map(r -> (EntityWithDate) r)
+        .collect(Collectors.toList())
+      );
   }
 
   @Override

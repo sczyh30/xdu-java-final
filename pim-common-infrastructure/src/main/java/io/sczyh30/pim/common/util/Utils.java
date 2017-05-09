@@ -2,6 +2,7 @@ package io.sczyh30.pim.common.util;
 
 import io.sczyh30.pim.entity.PIMEntity;
 import io.sczyh30.pim.entity.*;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Optional;
@@ -20,6 +21,14 @@ public final class Utils {
     return (JsonObject) o;
   }
 
+  public static <T extends PIMEntity> T fromJson(JsonObject json, Class<T> clazz) {
+    T result = Json.decodeValue(json.encode(), clazz);
+    if (json.containsKey("_id")) {
+      result.setId(json.getString("_id"));
+    }
+    return result;
+  }
+
   /**
    * Construct an PIM entity from a JSON object.
    *
@@ -30,13 +39,13 @@ public final class Utils {
     String type = json.getString("type", "unknown");
     switch (type) {
       case "todo":
-        return Optional.of(new PIMTodo(json));
+        return Optional.of(fromJson(json, PIMTodo.class));
       case "appointment":
-        return Optional.of(new PIMAppointment(json));
+        return Optional.of(fromJson(json, PIMAppointment.class));
       case "note":
-        return Optional.of(new PIMNote(json));
+        return Optional.of(fromJson(json, PIMNote.class));
       case "contact":
-        return Optional.of(new PIMContact(json));
+        return Optional.of(fromJson(json, PIMContact.class));
       default:
         return Optional.empty();
     }

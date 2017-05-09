@@ -1,6 +1,7 @@
 package io.sczyh30.pim.client.impl;
 
 import io.sczyh30.pim.client.PimService;
+import io.sczyh30.pim.common.date.DateUtils;
 import io.sczyh30.pim.common.util.PimServiceException;
 import io.sczyh30.pim.common.util.Utils;
 import io.sczyh30.pim.entity.EntityWithDate;
@@ -43,7 +44,7 @@ public class PimRemoteHttpService implements PimService {
   private static final String API_GET_NOTES = "/api/notes";
   private static final String API_GET_CONTACTS = "/api/contacts";
   private static final String API_GET_ALL = "/api/entities";
-  private static final String API_GET_BY_DATE = "/api/date";
+  private static final String API_GET_BY_DATE = "/api/date/";
 
   private final Vertx vertx;
   private final WebClient webClient;
@@ -95,7 +96,7 @@ public class PimRemoteHttpService implements PimService {
       .flatMap(this::resolveResponse)
       .map(r -> r.stream()
         .map(Utils::rawToJson)
-        .map(PIMNote::new)
+        .map(json -> Utils.fromJson(json, PIMNote.class))
         .collect(Collectors.toList())
       );
   }
@@ -116,7 +117,7 @@ public class PimRemoteHttpService implements PimService {
       .flatMap(this::resolveResponse)
       .map(r -> r.stream()
         .map(Utils::rawToJson)
-        .map(PIMTodo::new)
+        .map(json -> Utils.fromJson(json, PIMTodo.class))
         .collect(Collectors.toList())
       );
   }
@@ -137,7 +138,7 @@ public class PimRemoteHttpService implements PimService {
       .flatMap(this::resolveResponse)
       .map(r -> r.stream()
         .map(Utils::rawToJson)
-        .map(PIMAppointment::new)
+        .map(json -> Utils.fromJson(json, PIMAppointment.class))
         .collect(Collectors.toList())
       );
   }
@@ -158,19 +159,34 @@ public class PimRemoteHttpService implements PimService {
       .flatMap(this::resolveResponse)
       .map(r -> r.stream()
         .map(Utils::rawToJson)
-        .map(PIMContact::new)
+        .map(json -> Utils.fromJson(json, PIMContact.class))
         .collect(Collectors.toList())
       );
   }
 
   @Override
   public Single<List<EntityWithDate>> getItemsForDate(LocalDate date) {
-    return null;
+    return getItemsForDate(date, null);
   }
 
   @Override
   public Single<List<EntityWithDate>> getItemsForDate(LocalDate date, String owner) {
-    return null;
+    HttpRequest<Buffer> request = webClient.get(port, host, API_GET_BY_DATE + DateUtils.dateToString(date));
+    if (owner != null) {
+      request = request.addQueryParam("owner", owner);
+    }
+    return request.as(BodyCodec.jsonArray())
+      .rxSend()
+      .flatMap(this::resolveResponse)
+      .map(arr -> arr.stream()
+        .map(Utils::rawToJson)
+        .map(Utils::entityFromJson)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .filter(r -> r instanceof EntityWithDate)
+        .map(e -> (EntityWithDate) e)
+        .collect(Collectors.toList())
+      );
   }
 
   @Override

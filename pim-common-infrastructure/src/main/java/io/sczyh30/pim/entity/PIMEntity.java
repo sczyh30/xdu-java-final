@@ -1,6 +1,7 @@
 package io.sczyh30.pim.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -8,15 +9,16 @@ import io.vertx.core.json.JsonObject;
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class PIMEntity {
 
   protected String id;
+
   protected String owner;
-  protected boolean shared;
-  protected String priority;
+  protected boolean shared = true;
+  protected Priority priority = Priority.NORMAL;
 
   public PIMEntity() {
-    this.priority = "normal";
   }
 
   /**
@@ -25,6 +27,14 @@ public abstract class PIMEntity {
    * @return converted JSON object
    */
   public abstract JsonObject toJson();
+
+  protected JsonObject preProcessJson(JsonObject json) {
+    json.remove("id");
+    if (this.id != null) {
+      json.put("_id", this.id);
+    }
+    return json;
+  }
 
   /**
    * Directly cast current object to subclass type T.
@@ -75,11 +85,11 @@ public abstract class PIMEntity {
     return this;
   }
 
-  public String getPriority() {
+  public Priority getPriority() {
     return priority;
   }
 
-  public PIMEntity setPriority(String priority) {
+  public PIMEntity setPriority(Priority priority) {
     this.priority = priority;
     return this;
   }
