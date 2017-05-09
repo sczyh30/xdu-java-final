@@ -1,0 +1,4 @@
+{
+  "pim.server.http.host": "0.0.0.0",
+  "pim.server.http.port": 8888
+}
