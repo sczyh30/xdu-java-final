@@ -118,4 +118,21 @@ public interface PimService extends AutoCloseable {
    * @return asynchronous result indicating the status of the add operation
    */
   Completable add(PIMEntity entity);
+
+  /**
+   * Update an existing PIM entity by ID.
+   *
+   * @param id     entity ID
+   * @param entity entity object
+   * @return asynchronous result indicating the status of the update operation
+   */
+  Completable update(String id, PIMEntity entity);
+
+  /**
+   * Remove a PIM entity from the backend.
+   *
+   * @param id entity id
+   * @return asynchronous result indicating the status of the remove operation
+   */
+  Completable remove(String id);
 }

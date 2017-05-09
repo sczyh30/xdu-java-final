@@ -28,17 +28,9 @@ public class PIMContact extends PIMEntity {
     this.email = email;
   }
 
-  public PIMContact(String priority, String firstName, String lastName, String email) {
-    super(priority);
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-  }
-
   @Override
   public JsonObject toJson() {
     JsonObject json = new JsonObject();
-
     return json;
   }
 
@@ -46,24 +38,27 @@ public class PIMContact extends PIMEntity {
     return firstName;
   }
 
-  public void setFirstName(String firstName) {
+  public PIMContact setFirstName(String firstName) {
     this.firstName = firstName;
+    return this;
   }
 
   public String getLastName() {
     return lastName;
   }
 
-  public void setLastName(String lastName) {
+  public PIMContact setLastName(String lastName) {
     this.lastName = lastName;
+    return this;
   }
 
   public String getEmail() {
     return email;
   }
 
-  public void setEmail(String email) {
+  public PIMContact setEmail(String email) {
     this.email = email;
+    return this;
   }
 }
 

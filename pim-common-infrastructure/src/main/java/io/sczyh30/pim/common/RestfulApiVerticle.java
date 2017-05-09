@@ -8,6 +8,7 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import rx.Completable;
 import rx.Single;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -36,6 +37,7 @@ public abstract class RestfulApiVerticle extends AbstractVerticle {
 
   /**
    * Resolve an asynchronous status and send back the response.
+   * By default, the successful status code is 200 OK.
    *
    * @param context     routing context
    * @param asyncResult asynchronous status with no result
@@ -46,6 +48,21 @@ public abstract class RestfulApiVerticle extends AbstractVerticle {
       internalError(context, "invalid_status");
     } else {
       asyncResult.subscribe(response::end, ex -> internalError(context, ex));
+    }
+  }
+
+  /**
+   * Resolve an asynchronous status and send back the response.
+   * The successful status code depends on processor {@code f}.
+   *
+   * @param context     routing context
+   * @param asyncResult asynchronous status with no result
+   */
+  protected void sendResponse(RoutingContext context, Completable asyncResult, Consumer<RoutingContext> f) {
+    if (asyncResult == null) {
+      internalError(context, "invalid_status");
+    } else {
+      asyncResult.subscribe(() -> f.accept(context), ex -> internalError(context, ex));
     }
   }
 
@@ -67,6 +84,15 @@ public abstract class RestfulApiVerticle extends AbstractVerticle {
   }
 
   /**
+   * Send back a response with status 200 Ok.
+   *
+   * @param context routing context
+   */
+  protected void ok(RoutingContext context) {
+    context.response().end();
+  }
+
+  /**
    * Send back a response with status 200 OK.
    *
    * @param context routing context
@@ -76,6 +102,24 @@ public abstract class RestfulApiVerticle extends AbstractVerticle {
     context.response().setStatusCode(200)
       .putHeader("content-type", "application/json")
       .end(content);
+  }
+
+  /**
+   * Send back a response with status 201 Created.
+   *
+   * @param context routing context
+   */
+  protected void created(RoutingContext context) {
+    context.response().setStatusCode(201).end();
+  }
+
+  /**
+   * Send back a response with status 204 No Content.
+   *
+   * @param context routing context
+   */
+  protected void noContent(RoutingContext context) {
+    context.response().setStatusCode(204).end();
   }
 
   /**

@@ -36,6 +36,8 @@ public class PimRemoteHttpService implements PimService {
   private static final int DEFAULT_PORT = 8888;
 
   private static final String API_ADD = "/api/entities";
+  private static final String API_REMOVE = "/api/entity/";
+  private static final String API_UPDATE = "/api/entity/";
   private static final String API_GET_TODOS = "/api/todos";
   private static final String API_GET_APPOINTMENTS = "/api/appointments";
   private static final String API_GET_NOTES = "/api/notes";
@@ -73,7 +75,7 @@ public class PimRemoteHttpService implements PimService {
     if (status >= 400) {
       return Single.error(new PimServiceException(status, response.bodyAsString()));
     } else {
-      return Single.just(response.body()); // TODO: Should we set a scheduler in Vert.x context?
+      return Single.just(response.body()); // TODO: Should we set a scheduler?
     }
   }
 
@@ -198,6 +200,22 @@ public class PimRemoteHttpService implements PimService {
   public Completable add(PIMEntity entity) {
     return webClient.post(port, host, API_ADD)
       .rxSendJsonObject(entity.toJson())
+      .flatMap(this::resolveResponse)
+      .toCompletable();
+  }
+
+  @Override
+  public Completable update(String id, PIMEntity entity) {
+    return webClient.patch(port, host, API_UPDATE + id)
+      .rxSend()
+      .flatMap(this::resolveResponse)
+      .toCompletable();
+  }
+
+  @Override
+  public Completable remove(String id) {
+    return webClient.delete(port, host, API_REMOVE + id)
+      .rxSend()
       .flatMap(this::resolveResponse)
       .toCompletable();
   }

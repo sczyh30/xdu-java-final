@@ -13,4 +13,8 @@ public class PimServiceException extends Exception {
     super(message);
     this.statusCode = statusCode;
   }
+
+  public int getStatusCode() {
+    return statusCode;
+  }
 }

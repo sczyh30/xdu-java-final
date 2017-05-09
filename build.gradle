@@ -80,7 +80,7 @@ project("pim-gui") {
     archiveName = 'pim-gui.jar'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest {
-      attributes 'Main-Class': 'io.sczyh30.pim.PimGuiRunner'
+      attributes 'Main-Class': 'io.sczyh30.pim.gui.PimGuiApplication'
     }
   }
 }

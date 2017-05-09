@@ -28,6 +28,8 @@ public class PimRestVerticle extends RestfulApiVerticle {
 
   private static final String API_VERSION = "/api/v";
   private static final String API_ADD = "/api/entities";
+  private static final String API_REMOVE = "/api/entity/:id";
+  private static final String API_UPDATE = "/api/entity/:id";
   private static final String API_GET_TODOS = "/api/todos";
   private static final String API_GET_APPOINTMENTS = "/api/appointments";
   private static final String API_GET_NOTES = "/api/notes";
@@ -48,6 +50,8 @@ public class PimRestVerticle extends RestfulApiVerticle {
     // API handlers.
     router.get(API_VERSION).handler(this::apiVersion);
     router.post(API_ADD).handler(this::apiAdd);
+    router.patch(API_UPDATE).handler(this::apiUpdate);
+    router.delete(API_REMOVE).handler(this::apiRemove);
     router.get(API_GET_TODOS).handler(this::apiGetTodos);
     router.get(API_GET_APPOINTMENTS).handler(this::apiGetAppointments);
     router.get(API_GET_NOTES).handler(this::apiGetNotes);
@@ -67,14 +71,42 @@ public class PimRestVerticle extends RestfulApiVerticle {
   }
 
   private void apiAdd(RoutingContext context) {
-    JsonObject rawEntity = context.getBodyAsJson();
-    if (rawEntity != null && rawEntity.containsKey("type")) {
-      Optional<PIMEntity> entityOpt = Utils.entityFromJson(rawEntity);
-      if (entityOpt.isPresent()) {
-        sendResponse(context, service.add(entityOpt.get()));
-      } else {
-        badRequest(context);
+    try {
+      JsonObject rawEntity = context.getBodyAsJson();
+      if (rawEntity != null && rawEntity.containsKey("type")) {
+        Optional<PIMEntity> entityOpt = Utils.entityFromJson(rawEntity);
+        if (entityOpt.isPresent()) {
+          sendResponse(context, service.add(entityOpt.get()), this::created);
+          return;
+        }
       }
+      badRequest(context);
+    } catch (Exception ex) {
+      badRequest(context, ex);
+    }
+  }
+
+  private void apiUpdate(RoutingContext context) {
+    try {
+      String id = context.request().getParam("id");
+      JsonObject rawEntity = context.getBodyAsJson();
+      if (id != null && rawEntity != null && rawEntity.containsKey("type")) {
+        Optional<PIMEntity> entityOpt = Utils.entityFromJson(rawEntity);
+        if (entityOpt.isPresent()) {
+          sendResponse(context, service.update(id, entityOpt.get()));
+          return;
+        }
+      }
+      badRequest(context);
+    } catch (Exception ex) {
+      badRequest(context, ex);
+    }
+  }
+
+  private void apiRemove(RoutingContext context) {
+    String id = context.request().getParam("id");
+    if (id != null) {
+      sendResponse(context, service.remove(id), this::noContent);
     } else {
       badRequest(context);
     }

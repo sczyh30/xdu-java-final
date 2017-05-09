@@ -135,6 +135,18 @@ public class DefaultPimServiceImpl implements PimService {
   }
 
   @Override
+  public Completable update(String id, PIMEntity entity) {
+    return add(entity);
+  }
+
+  @Override
+  public Completable remove(String id) {
+    JsonObject query = new JsonObject().put("_id", id);
+    return client.rxRemove(COLLECTION, query)
+      .toCompletable();
+  }
+
+  @Override
   public void close() throws Exception {
     // Here we use the service in a verticle context, so no need to clean-up.
   }

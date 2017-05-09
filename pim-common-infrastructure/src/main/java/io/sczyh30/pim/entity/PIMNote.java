@@ -24,11 +24,6 @@ public class PIMNote extends PIMEntity {
     this.text = text;
   }
 
-  public PIMNote(String priority, String text) {
-    super(priority);
-    this.text = text;
-  }
-
   @Override
   public JsonObject toJson() {
     JsonObject json = new JsonObject();
@@ -40,7 +35,8 @@ public class PIMNote extends PIMEntity {
     return text;
   }
 
-  public void setText(String text) {
+  public PIMNote setText(String text) {
     this.text = text;
+    return this;
   }
 }

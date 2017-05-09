@@ -28,12 +28,6 @@ public class PIMAppointment extends PIMEntity implements EntityWithDate {
     this.description = description;
   }
 
-  public PIMAppointment(String priority, LocalDate date, String description) {
-    super(priority);
-    this.date = date;
-    this.description = description;
-  }
-
   @Override
   public JsonObject toJson() {
     JsonObject json = new JsonObject();
@@ -53,7 +47,8 @@ public class PIMAppointment extends PIMEntity implements EntityWithDate {
     return description;
   }
 
-  public void setDescription(String description) {
+  public PIMAppointment setDescription(String description) {
     this.description = description;
+    return this;
   }
 }

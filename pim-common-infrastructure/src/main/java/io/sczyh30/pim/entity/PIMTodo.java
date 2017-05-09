@@ -28,25 +28,11 @@ public class PIMTodo extends PIMEntity implements EntityWithDate {
     this.date = date;
   }
 
-  public PIMTodo(String priority, String text, LocalDate date) {
-    super(priority);
-    this.text = text;
-    this.date = date;
-  }
-
   @Override
   public JsonObject toJson() {
     JsonObject json = new JsonObject();
 
     return json;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
   }
 
   public LocalDate getDate() {
@@ -55,5 +41,14 @@ public class PIMTodo extends PIMEntity implements EntityWithDate {
 
   public void setDate(LocalDate date) {
     this.date = date;
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public PIMTodo setText(String text) {
+    this.text = text;
+    return this;
   }
 }
