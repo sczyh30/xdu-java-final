@@ -11,7 +11,7 @@ import rx.Single;
 import java.util.function.Function;
 
 /**
- * An abstract base Rx-fied verticle that provides several helper methods for REST API.
+ * An abstract base Rx-fied verticle that provides several helper methods for RESTful API.
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
  */
@@ -25,11 +25,11 @@ public abstract class RestfulApiVerticle extends AbstractVerticle {
    * @param port   server port
    * @return asynchronous result
    */
-  protected Completable createHttpServer(Router router, String host, int port) {
+  protected Single<Void> createHttpServer(Router router, String host, int port) {
     return vertx.createHttpServer()
       .requestHandler(router::accept)
       .rxListen(port, host)
-      .toCompletable();
+      .map(r -> null);
   }
 
   // Helper status methods.

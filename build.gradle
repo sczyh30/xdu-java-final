@@ -45,7 +45,7 @@ project("pim-http-server") {
   dependencies {
     compile(project(":pim-common-infrastructure"))
     compile("io.vertx:vertx-web:${vertxVersion}")
-    compile("io.vertx:vertx-jdbc-client:${vertxVersion}")
+    compile("io.vertx:vertx-mongo-client:${vertxVersion}")
     compile("io.vertx:vertx-rx-java:${vertxVersion}")
   }
 

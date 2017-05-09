@@ -1,5 +1,6 @@
 package io.sczyh30.pim.service.impl;
 
+import io.sczyh30.pim.common.util.Utils;
 import io.sczyh30.pim.entity.EntityWithDate;
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMContact;
@@ -9,67 +10,91 @@ import io.sczyh30.pim.entity.PIMTodo;
 import io.sczyh30.pim.service.PimService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
-import io.vertx.rxjava.ext.jdbc.JDBCClient;
+import io.vertx.rxjava.ext.mongo.MongoClient;
 import rx.Completable;
 import rx.Single;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Default server-side implementation of {@link PimService}.
- * The default implementation uses MySQL as the backend storage.
+ * The default implementation uses MongoDB as the backend storage.
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
  */
 public class DefaultPimServiceImpl implements PimService {
 
+  private static final String COLLECTION = "pimEntity";
+
   private final Vertx vertx;
-  private final JDBCClient client;
+  private final MongoClient client;
 
   public DefaultPimServiceImpl(Vertx vertx, JsonObject config) {
     this.vertx = vertx;
-    this.client = JDBCClient.createNonShared(vertx, config);
+    this.client = MongoClient.createNonShared(vertx, config);
   }
 
   @Override
   public Single<List<PIMNote>> getNotes() {
-    return null;
+    return getNotes(null);
   }
 
   @Override
   public Single<List<PIMNote>> getNotes(String owner) {
-    return null;
+    JsonObject query = new JsonObject().put("type", "note");
+    if (owner != null) {
+      query.put("owner", owner);
+    }
+    return client.rxFind(COLLECTION, query)
+      .map(r -> r.stream().map(PIMNote::new).collect(Collectors.toList()));
   }
 
   @Override
   public Single<List<PIMTodo>> getTodos() {
-    return null;
+    return getTodos(null);
   }
 
   @Override
   public Single<List<PIMTodo>> getTodos(String owner) {
-    return null;
+    JsonObject query = new JsonObject().put("type", "todo");
+    if (owner != null) {
+      query.put("owner", owner);
+    }
+    return client.rxFind(COLLECTION, query)
+      .map(r -> r.stream().map(PIMTodo::new).collect(Collectors.toList()));
   }
 
   @Override
   public Single<List<PIMAppointment>> getAppointments() {
-    return null;
+    return getAppointments(null);
   }
 
   @Override
   public Single<List<PIMAppointment>> getAppointments(String owner) {
-    return null;
+    JsonObject query = new JsonObject().put("type", "appointment");
+    if (owner != null) {
+      query.put("owner", owner);
+    }
+    return client.rxFind(COLLECTION, query)
+      .map(r -> r.stream().map(PIMAppointment::new).collect(Collectors.toList()));
   }
 
   @Override
   public Single<List<PIMContact>> getContacts() {
-    return null;
+    return getContacts(null);
   }
 
   @Override
   public Single<List<PIMContact>> getContacts(String owner) {
-    return null;
+    JsonObject query = new JsonObject().put("type", "contact");
+    if (owner != null) {
+      query.put("owner", owner);
+    }
+    return client.rxFind(COLLECTION, query)
+      .map(r -> r.stream().map(PIMContact::new).collect(Collectors.toList()));
   }
 
   @Override
@@ -84,17 +109,29 @@ public class DefaultPimServiceImpl implements PimService {
 
   @Override
   public Single<List<PIMEntity>> getAll() {
-    return null;
+    return getAllByOwner(null);
   }
 
   @Override
   public Single<List<PIMEntity>> getAllByOwner(String owner) {
-    return null;
+    JsonObject query = new JsonObject();
+    if (owner != null) {
+      query.put("owner", owner);
+    }
+    return client.rxFind(COLLECTION, query).toObservable()
+      .flatMapIterable(r -> r)
+      .map(Utils::entityFromJson)
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .toList()
+      .toSingle();
   }
 
   @Override
   public Completable add(PIMEntity entity) {
-    return null;
+    JsonObject json = entity.toJson();
+    return client.rxInsert(COLLECTION, json)
+      .toCompletable();
   }
 
   @Override

@@ -16,6 +16,10 @@ public final class Utils {
   private Utils() {
   }
 
+  public static JsonObject rawToJson(Object o) {
+    return (JsonObject) o;
+  }
+
   /**
    * Construct an PIM entity from a JSON object.
    *
