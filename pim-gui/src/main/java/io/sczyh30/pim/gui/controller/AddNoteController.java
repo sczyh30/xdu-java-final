@@ -4,6 +4,7 @@ import io.sczyh30.pim.client.PimService;
 import io.sczyh30.pim.entity.PIMContact;
 import io.sczyh30.pim.entity.PIMNote;
 import io.sczyh30.pim.gui.PimServiceContext;
+import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +24,7 @@ public class AddNoteController extends BaseController {
     String owner = getOwner();
     service.add(new PIMNote(noteTextField.getText())
       .setOwner(owner))
-      .subscribe(this::showSuccessAlert, this::showErrorAlert);
+      .subscribe(DialogUtil::showSuccessAlert, DialogUtil::showErrorAlert);
   }
 
   @FXML

@@ -1,6 +1,7 @@
 package io.sczyh30.pim.gui.controller;
 
 import io.sczyh30.pim.entity.PIMContact;
+import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +26,6 @@ public class ShowContactController extends BaseController implements Initializab
       Platform.runLater(() -> {
         tableView.getItems().addAll(r);
       });
-    }, this::showErrorAlert);
+    }, DialogUtil::showErrorAlert);
   }
 }

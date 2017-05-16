@@ -4,6 +4,7 @@ import io.sczyh30.pim.client.PimService;
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMContact;
 import io.sczyh30.pim.gui.PimServiceContext;
+import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -29,7 +30,7 @@ public class AddContactController extends BaseController {
     String owner = getOwner();
     service.add(new PIMContact(firstNameField.getText(), lastNameField.getText(), emailField.getText())
       .setOwner(owner))
-      .subscribe(this::showSuccessAlert, this::showErrorAlert);
+      .subscribe(DialogUtil::showSuccessAlert, DialogUtil::showErrorAlert);
   }
 
   @FXML

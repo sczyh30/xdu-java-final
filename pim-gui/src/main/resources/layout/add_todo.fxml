@@ -27,7 +27,7 @@
         <Insets left="30.0"/>
       </HBox.margin>
     </Text>
-    <TextField fx:id="descField" text="Description">
+    <TextField fx:id="todoTextField">
       <HBox.margin>
         <Insets left="10.0"/>
       </HBox.margin>

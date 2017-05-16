@@ -1,8 +1,7 @@
 package io.sczyh30.pim.gui.controller;
 
-import io.sczyh30.pim.client.PimService;
 import io.sczyh30.pim.entity.PIMAppointment;
-import io.sczyh30.pim.gui.PimServiceContext;
+import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -28,7 +27,7 @@ public class AddAppointmentController extends BaseController {
     LocalDate date = datePicker.getValue();
     String description = descField.getText();
     service.add(new PIMAppointment(date, description).setOwner(owner))
-      .subscribe(this::showSuccessAlert, this::showErrorAlert);
+      .subscribe(DialogUtil::showSuccessAlert, DialogUtil::showErrorAlert);
   }
 
   @FXML

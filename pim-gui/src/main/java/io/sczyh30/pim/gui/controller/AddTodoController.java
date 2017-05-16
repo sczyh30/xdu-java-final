@@ -4,6 +4,7 @@ import io.sczyh30.pim.client.PimService;
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMTodo;
 import io.sczyh30.pim.gui.PimServiceContext;
+import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -29,7 +30,7 @@ public class AddTodoController extends BaseController {
     LocalDate date = datePicker.getValue();
     String todoText = todoTextField.getText();
     service.add(new PIMTodo(todoText, date).setOwner(owner))
-      .subscribe(this::showSuccessAlert, this::showErrorAlert);
+      .subscribe(DialogUtil::showSuccessAlert, DialogUtil::showErrorAlert);
   }
 
   @FXML
