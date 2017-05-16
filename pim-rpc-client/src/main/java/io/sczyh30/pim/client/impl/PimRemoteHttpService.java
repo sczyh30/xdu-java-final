@@ -60,7 +60,7 @@ public class PimRemoteHttpService implements PimService {
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     webClient.close();
     vertx.close();
   }

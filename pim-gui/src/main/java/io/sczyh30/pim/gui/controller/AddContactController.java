@@ -1,0 +1,41 @@
+package io.sczyh30.pim.gui.controller;
+
+import io.sczyh30.pim.client.PimService;
+import io.sczyh30.pim.entity.PIMAppointment;
+import io.sczyh30.pim.entity.PIMContact;
+import io.sczyh30.pim.gui.PimServiceContext;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+
+import java.time.LocalDate;
+
+/**
+ * UI controller for adding contact.
+ *
+ * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
+ */
+public class AddContactController extends BaseController {
+
+  @FXML
+  private TextField firstNameField;
+  @FXML
+  private TextField lastNameField;
+  @FXML
+  private TextField emailField;
+
+  @FXML
+  public void addContact(MouseEvent event) {
+    String owner = getOwner();
+    service.add(new PIMContact(firstNameField.getText(), lastNameField.getText(), emailField.getText())
+      .setOwner(owner))
+      .subscribe(this::showSuccessAlert, this::showErrorAlert);
+  }
+
+  @FXML
+  public void clearText(MouseEvent event) {
+    firstNameField.setText("");
+    lastNameField.setText("");
+    emailField.setText("");
+  }
+}

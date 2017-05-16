@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="io.sczyh30.pim.gui.controller.ShowNoteController"
+          prefHeight="400.0" prefWidth="600.0" vgap="10" hgap="10">
+  <TableView fx:id="tableView" GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="600">
+    <columns>
+      <TableColumn text="ID" prefWidth="200">
+        <cellValueFactory>
+          <PropertyValueFactory property="id"/>
+        </cellValueFactory>
+      </TableColumn>
+      <TableColumn text="Note" prefWidth="400">
+        <cellValueFactory>
+          <PropertyValueFactory property="text"/>
+        </cellValueFactory>
+      </TableColumn>
+    </columns>
+  </TableView>
+  <GridPane.margin>
+    <Insets left="30.0"/>
+  </GridPane.margin>
+</GridPane>

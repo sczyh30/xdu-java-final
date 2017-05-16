@@ -30,11 +30,9 @@ public class DefaultPimServiceImpl implements PimService {
 
   private static final String COLLECTION = "pimEntity";
 
-  private final Vertx vertx;
   private final MongoClient client;
 
   public DefaultPimServiceImpl(Vertx vertx, JsonObject config) {
-    this.vertx = vertx;
     this.client = MongoClient.createNonShared(vertx, config);
   }
 

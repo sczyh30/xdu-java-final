@@ -135,4 +135,9 @@ public interface PimService extends AutoCloseable {
    * @return asynchronous result indicating the status of the remove operation
    */
   Completable remove(String id);
+
+  /**
+   * Extending the {@link AutoCloseable} interface.
+   */
+  void close();
 }
