@@ -2,7 +2,6 @@ package io.sczyh30.pim.service.impl;
 
 import io.sczyh30.pim.common.date.DateUtils;
 import io.sczyh30.pim.common.util.Utils;
-import io.sczyh30.pim.entity.EntityWithDate;
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMContact;
 import io.sczyh30.pim.entity.PIMEntity;
@@ -109,34 +108,30 @@ public class DefaultPimServiceImpl implements PimService {
   }
 
   @Override
-  public Single<List<EntityWithDate>> getItemsForDate(LocalDate date) {
+  public Single<List<JsonObject>> getItemsForDate(LocalDate date) {
     return getItemsForDate(date, null);
   }
 
   @Override
-  public Single<List<EntityWithDate>> getItemsForDate(LocalDate date, String owner) {
+  public Single<List<JsonObject>> getItemsForDate(LocalDate date, String owner) {
     JsonObject query = new JsonObject().put("date", DateUtils.dateToString(date));
     if (owner != null) {
       query.put("owner", owner);
     }
     return client.rxFind(COLLECTION, query)
       .map(list -> list.stream()
-        .map(Utils::entityFromJson)
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .filter(r -> r instanceof EntityWithDate)
-        .map(r -> (EntityWithDate) r)
+        .filter(e -> e.containsKey("date")) // NOTE: unsafe!
         .collect(Collectors.toList())
       );
   }
 
   @Override
-  public Single<List<PIMEntity>> getAll() {
+  public Single<List<JsonObject>> getAll() {
     return getAllByOwner(null);
   }
 
   @Override
-  public Single<List<PIMEntity>> getAllByOwner(String owner) {
+  public Single<List<JsonObject>> getAllByOwner(String owner) {
     JsonObject query = new JsonObject();
     if (owner != null) {
       query.put("owner", owner);
@@ -146,6 +141,7 @@ public class DefaultPimServiceImpl implements PimService {
       .map(Utils::entityFromJson)
       .filter(Optional::isPresent)
       .map(Optional::get)
+      .map(PIMEntity::toJson)
       .toList()
       .toSingle();
   }

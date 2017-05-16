@@ -1,11 +1,11 @@
 package io.sczyh30.pim.service;
 
-import io.sczyh30.pim.entity.EntityWithDate;
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMContact;
 import io.sczyh30.pim.entity.PIMEntity;
 import io.sczyh30.pim.entity.PIMNote;
 import io.sczyh30.pim.entity.PIMTodo;
+import io.vertx.core.json.JsonObject;
 import rx.Completable;
 import rx.Single;
 
@@ -16,6 +16,7 @@ import java.util.List;
  * Asynchronous service interface for personal information manager (server-side).
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
+ * @version v2
  */
 public interface PimService extends AutoCloseable {
 
@@ -85,7 +86,7 @@ public interface PimService extends AutoCloseable {
    * @param date specific date
    * @return asynchronous result of the entities
    */
-  Single<List<EntityWithDate>> getItemsForDate(LocalDate date);
+  Single<List<JsonObject>> getItemsForDate(LocalDate date);
 
   /**
    * Get all entities with specific date by specific owner.
@@ -94,14 +95,14 @@ public interface PimService extends AutoCloseable {
    * @param owner specific owner
    * @return asynchronous result of the entities
    */
-  Single<List<EntityWithDate>> getItemsForDate(LocalDate date, String owner);
+  Single<List<JsonObject>> getItemsForDate(LocalDate date, String owner);
 
   /**
    * Get all PIM entities from the backend.
    *
    * @return asynchronous result of the entities
    */
-  Single<List<PIMEntity>> getAll();
+  Single<List<JsonObject>> getAll();
 
   /**
    * Get all PIM entities from the backend by specific owner.
@@ -109,7 +110,7 @@ public interface PimService extends AutoCloseable {
    * @param owner specific owner
    * @return asynchronous result of the entities
    */
-  Single<List<PIMEntity>> getAllByOwner(String owner);
+  Single<List<JsonObject>> getAllByOwner(String owner);
 
   /**
    * Put a PIM entity into the backend.
