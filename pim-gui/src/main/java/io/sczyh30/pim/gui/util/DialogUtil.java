@@ -20,7 +20,7 @@ public final class DialogUtil {
   public static void showAddAppointment() {
     try {
       Stage stage = new Stage();
-      Parent root = FXMLLoader.load(DialogUtil.class.getResource("/layout/add_note.fxml"));
+      Parent root = FXMLLoader.load(DialogUtil.class.getResource("/layout/add_appointment.fxml"));
       stage.setTitle("Add a appointment");
       stage.setScene(new Scene(root));
       stage.show();

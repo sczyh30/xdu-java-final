@@ -1,3 +1,8 @@
+.pim-root {
+  -fx-hgap: 10;
+  -fx-vgap: 10;
+}
+
 .calendar-grid {
   -fx-hgap: 10;
   -fx-vgap: 10;
@@ -10,9 +15,22 @@
   -fx-font-weight: bold;
 }
 
-.calendar-cell {
-  -fx-padding: 10;
+.calendar-day-header {
   -fx-alignment: center;
+  -fx-font-weight: bold;
+  -fx-pref-width: 100;
+}
+
+.calendar-cell {
+  -fx-alignment: center;
+  -fx-padding: 10;
+  -fx-pref-width: 100;
+  -fx-pref-height: 30;
+}
+
+.calendar-cell-entity-item {
+  -fx-alignment: center;
+  -fx-background-color: aquamarine
 }
 
 .calendar-cell:before-display-month, .calendar-cell:after-display-month {

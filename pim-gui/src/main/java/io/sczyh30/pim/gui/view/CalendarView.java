@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.css.PseudoClass;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -77,6 +78,7 @@ public class CalendarView extends BorderPane {
       DayOfWeek day = date.getDayOfWeek();
       Label label = new Label(day.getDisplayName(TextStyle.SHORT_STANDALONE, locale));
       label.getStyleClass().add("calendar-day-header");
+      // label.setPrefWidth(100);
       GridPane.setHalignment(label, HPos.CENTER);
       calendar.add(label, dayOfWeek - 1, 0);
     }
@@ -90,18 +92,18 @@ public class CalendarView extends BorderPane {
     PseudoClass afterMonth = PseudoClass.getPseudoClass("after-display-month");
 
     for (LocalDate date = firstDisplayedDate; !date.isAfter(lastDisplayedDate); date = date.plusDays(1)) {
-      Label label = new Label(String.valueOf(date.getDayOfMonth()));
-      label.getStyleClass().add("calendar-cell");
-      label.pseudoClassStateChanged(beforeMonth, date.isBefore(first));
-      label.pseudoClassStateChanged(afterMonth, date.isAfter(last));
+      CalendarCell cell = new CalendarCell(date);
+      cell.getStyleClass().add("calendar-cell");
+      cell.pseudoClassStateChanged(beforeMonth, date.isBefore(first));
+      cell.pseudoClassStateChanged(afterMonth, date.isAfter(last));
 
-      GridPane.setHalignment(label, HPos.CENTER);
+      GridPane.setHalignment(cell, HPos.CENTER);
 
       int dayOfWeek = date.get(weekFields.dayOfWeek());
       int daysSinceFirstDisplayed = (int) firstDisplayedDate.until(date, ChronoUnit.DAYS);
       int weeksSinceFirstDisplayed = daysSinceFirstDisplayed / 7;
 
-      calendar.add(label, dayOfWeek - 1, weeksSinceFirstDisplayed + 1);
+      calendar.add(cell, dayOfWeek - 1, weeksSinceFirstDisplayed + 1);
     }
   }
 

@@ -55,8 +55,7 @@ public class PimGuiApplication extends Application {
   }
 
   private void initRoot(GridPane root) {
-    root.setHgap(10);
-    root.setVgap(10);
+    root.getStyleClass().add("pim-root");
   }
 
   /**
