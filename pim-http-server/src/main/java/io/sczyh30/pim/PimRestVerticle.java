@@ -20,6 +20,7 @@ import java.util.Optional;
  * The verticle serving the personal information manager RESTful service.
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
+ * @version v2
  */
 public class PimRestVerticle extends RestfulApiVerticle {
 
@@ -67,7 +68,7 @@ public class PimRestVerticle extends RestfulApiVerticle {
   }
 
   private void apiVersion(RoutingContext context) {
-    context.response().end("v1");
+    context.response().end("v2");
   }
 
   private void apiAdd(RoutingContext context) {

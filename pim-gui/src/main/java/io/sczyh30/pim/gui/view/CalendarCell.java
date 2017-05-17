@@ -1,6 +1,7 @@
 package io.sczyh30.pim.gui.view;
 
-import io.sczyh30.pim.client.PimService;
+import io.sczyh30.pim.common.util.Utils;
+import io.sczyh30.pim.entity.EntityWithDate;
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMTodo;
 import io.sczyh30.pim.gui.PimServiceContext;
@@ -8,11 +9,12 @@ import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Calendar cell view.
@@ -21,7 +23,7 @@ import java.time.LocalDate;
  */
 public class CalendarCell extends GridPane {
 
-  private final PimService service = PimServiceContext.getService();
+  private final PimServiceContext context = PimServiceContext.getContext();
 
   private LocalDate localDate;
   private final Label dayLabel;
@@ -31,29 +33,27 @@ public class CalendarCell extends GridPane {
     this.localDate = date;
     this.dayLabel = new Label(String.valueOf(localDate.getDayOfMonth()));
     dayLabel.setAlignment(Pos.CENTER);
+    dayLabel.setTextAlignment(TextAlignment.CENTER);
     this.itemLabel = new Label();
     itemLabel.getStyleClass().add("calendar-cell-entity-item");
     this.setVgap(3);
     this.add(dayLabel, 0, 0);
     this.add(itemLabel, 0, 2);
-    // NOTE: Bad performance! Only for DEMO.
-    service.getItemsForDate(localDate).subscribe(r -> {
-      if (!r.isEmpty()) {
-        int size = r.size();
-        if (size == 1) {
-          Platform.runLater(() -> itemLabel.setText(getDisplayFromEntity(r.get(0))));
-        } else {
-          Platform.runLater(() -> itemLabel.setText(String.format("Total %d items", r.size())));
-        }
-        itemLabel.setOnMouseClicked(this::handleItemDbClick);
+    List<EntityWithDate> r = Utils.getItemsForDate(context.getEntityList(), localDate);
+    if (!r.isEmpty()) {
+      int size = r.size();
+      if (size == 1) {
+        Platform.runLater(() -> itemLabel.setText(getDisplayFromEntity(r.get(0))));
+      } else {
+        Platform.runLater(() -> itemLabel.setText(String.format("Total %d items", r.size())));
       }
-    }, DialogUtil::showErrorAlert);
+      itemLabel.setOnMouseClicked(this::handleItemDbClick);
+    }
   }
 
   private void handleItemDbClick(MouseEvent event) {
     if (event.getClickCount() == 2) { // Double click
-      System.out.println("Test: Double Click");
-      // TODO
+      DialogUtil.showEntityWithCertainDate(localDate);
     }
   }
 

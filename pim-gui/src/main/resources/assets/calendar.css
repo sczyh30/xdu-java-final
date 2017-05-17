@@ -18,18 +18,20 @@
 .calendar-day-header {
   -fx-alignment: center;
   -fx-font-weight: bold;
-  -fx-pref-width: 100;
+  -fx-pref-width: 120;
 }
 
 .calendar-cell {
   -fx-alignment: center;
+  -fx-text-alignment: center;
   -fx-padding: 10;
-  -fx-pref-width: 100;
+  -fx-pref-width: 120;
   -fx-pref-height: 30;
 }
 
 .calendar-cell-entity-item {
   -fx-alignment: center;
+  -fx-text-alignment: center;
   -fx-background-color: aquamarine
 }
 

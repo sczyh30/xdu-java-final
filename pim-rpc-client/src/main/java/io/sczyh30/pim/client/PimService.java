@@ -16,6 +16,7 @@ import java.util.List;
  * Asynchronous service interface for personal information manager.
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
+ * @version v1 (CLIENT_SIDE)
  */
 public interface PimService extends AutoCloseable {
 

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="io.sczyh30.pim.gui.controller.ShowItemsController"
+          prefHeight="435.0" prefWidth="600.0" vgap="10" hgap="10">
+  <TabPane GridPane.columnIndex="0" GridPane.rowIndex="0">
+    <Tab text="Contact">
+      <TableView fx:id="contactTableView" prefWidth="600">
+        <columns>
+          <TableColumn text="First Name" prefWidth="150">
+            <cellValueFactory>
+              <PropertyValueFactory property="firstName"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Last Name" prefWidth="150">
+            <cellValueFactory>
+              <PropertyValueFactory property="lastName"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Email" prefWidth="300">
+            <cellValueFactory>
+              <PropertyValueFactory property="email"/>
+            </cellValueFactory>
+          </TableColumn>
+        </columns>
+      </TableView>
+    </Tab>
+    <Tab text="Appointment">
+      <TableView fx:id="appointmentTableView" prefWidth="600">
+        <columns>
+          <TableColumn text="Date" prefWidth="100">
+            <cellValueFactory>
+              <PropertyValueFactory property="date"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Priority" prefWidth="100">
+            <cellValueFactory>
+              <PropertyValueFactory property="priority"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Description" prefWidth="400">
+            <cellValueFactory>
+              <PropertyValueFactory property="description"/>
+            </cellValueFactory>
+          </TableColumn>
+        </columns>
+      </TableView>
+    </Tab>
+    <Tab text="Todo">
+      <TableView fx:id="todoTableView" prefWidth="600">
+        <columns>
+          <TableColumn text="Date" prefWidth="100">
+            <cellValueFactory>
+              <PropertyValueFactory property="date"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Priority" prefWidth="100">
+            <cellValueFactory>
+              <PropertyValueFactory property="priority"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Todo Text" prefWidth="400">
+            <cellValueFactory>
+              <PropertyValueFactory property="text"/>
+            </cellValueFactory>
+          </TableColumn>
+        </columns>
+      </TableView>
+    </Tab>
+    <Tab text="Note">
+      <TableView fx:id="noteTableView" prefWidth="600">
+        <columns>
+          <TableColumn text="ID" prefWidth="150">
+            <cellValueFactory>
+              <PropertyValueFactory property="id"/>
+            </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Note" prefWidth="450">
+            <cellValueFactory>
+              <PropertyValueFactory property="text"/>
+            </cellValueFactory>
+          </TableColumn>
+        </columns>
+      </TableView>
+    </Tab>
+  </TabPane>
+  <GridPane.margin>
+    <Insets left="30.0"/>
+  </GridPane.margin>
+</GridPane>

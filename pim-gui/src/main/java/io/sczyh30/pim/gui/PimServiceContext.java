@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Service context class.
- * Thread-safe singleton.
+ * Service context class. Thread-safe singleton.
  *
  * @author <a href="http://www.sczyh30.com">Eric Zhao 14130140389</a>
  */

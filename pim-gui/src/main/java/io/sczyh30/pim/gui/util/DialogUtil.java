@@ -1,11 +1,15 @@
 package io.sczyh30.pim.gui.util;
 
+import io.sczyh30.pim.common.date.DateUtils;
+import io.sczyh30.pim.gui.controller.DateEntityDetailController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
 
 /**
  * Util class for showing dialog.
@@ -65,11 +69,11 @@ public final class DialogUtil {
     }
   }
 
-  public static void showAllNoteDialog() {
+  public static void showItemsDialog() {
     try {
       Stage stage = new Stage();
-      Parent root = FXMLLoader.load(DialogUtil.class.getResource("/layout/show_note.fxml"));
-      stage.setTitle("View notes");
+      Parent root = FXMLLoader.load(DialogUtil.class.getResource("/layout/show_items.fxml"));
+      stage.setTitle("View All Items");
       stage.setScene(new Scene(root));
       stage.show();
     } catch (Exception ex) {
@@ -77,11 +81,14 @@ public final class DialogUtil {
     }
   }
 
-  public static void showAllContactDialog() {
+  public static void showEntityWithCertainDate(LocalDate date) {
     try {
       Stage stage = new Stage();
-      Parent root = FXMLLoader.load(DialogUtil.class.getResource("/layout/show_contact.fxml"));
-      stage.setTitle("View contacts");
+      FXMLLoader loader = new FXMLLoader(DialogUtil.class.getResource("/layout/date_entity_detail.fxml"));
+      Parent root = loader.load();
+      DateEntityDetailController controller = loader.getController();
+      controller.setDate(date);
+      stage.setTitle("Items in " + DateUtils.dateToString(date));
       stage.setScene(new Scene(root));
       stage.show();
     } catch (Exception ex) {
@@ -115,7 +122,7 @@ public final class DialogUtil {
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("About PIM");
       alert.setHeaderText("Personal Information Manager 1.0 (Java Version)");
-      alert.setContentText("Author: 赵奕豪 (14130140389).\nAll rights reserved.");
+      alert.setContentText("Author: 赵奕豪 (14130140389)\nAll rights reserved.");
       alert.show();
     });
   }

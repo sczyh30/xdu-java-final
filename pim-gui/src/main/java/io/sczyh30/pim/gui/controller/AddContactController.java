@@ -1,15 +1,10 @@
 package io.sczyh30.pim.gui.controller;
 
-import io.sczyh30.pim.client.PimService;
-import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMContact;
-import io.sczyh30.pim.gui.PimServiceContext;
 import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-
-import java.time.LocalDate;
 
 /**
  * UI controller for adding contact.

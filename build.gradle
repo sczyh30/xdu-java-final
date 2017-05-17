@@ -7,7 +7,7 @@ buildscript {
 }
 
 group 'io.sczyh30'
-version '1.0-ALPHA1'
+version '1.0'
 
 configure(allprojects) { project ->
 

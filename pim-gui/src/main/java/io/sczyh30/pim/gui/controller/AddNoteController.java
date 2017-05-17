@@ -1,9 +1,6 @@
 package io.sczyh30.pim.gui.controller;
 
-import io.sczyh30.pim.client.PimService;
-import io.sczyh30.pim.entity.PIMContact;
 import io.sczyh30.pim.entity.PIMNote;
-import io.sczyh30.pim.gui.PimServiceContext;
 import io.sczyh30.pim.gui.util.DialogUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

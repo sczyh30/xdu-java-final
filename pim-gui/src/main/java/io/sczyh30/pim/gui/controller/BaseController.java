@@ -11,6 +11,7 @@ import io.sczyh30.pim.gui.PimServiceContext;
 public abstract class BaseController {
 
   protected final PimService service = PimServiceContext.getService();
+  protected final PimServiceContext context = PimServiceContext.getContext();
 
   protected String getOwner() {
     return PimServiceContext.getContext().getOwner();
