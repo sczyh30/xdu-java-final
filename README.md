@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/sczyh30/xdu-java-final.svg?branch=master)](https://travis-ci.org/sczyh30/xdu-java-final)
 
 This is the repository of XDU Java Final Project (2017) - PIM.
+This trivial PIM implementation is written in Java 8 with JavaFX and Vert.x.
 
 ## Compile/Run
 
@@ -26,10 +27,11 @@ docker-compose up --build
 
 The default server implementation uses MongoDB as the backend so
 ensure your MongoDB instance running in the default port (or any other address, but needs configuration).
-Then execute the command to start the PIM server: 
+Then execute the command to start the PIM server in local: 
 
 ```bash
-java -jar pim-http-server/build/libs/pim-http-server.jar -conf pim-http-server/config/local.json
+cd pim-http-server
+java -jar build/libs/pim-http-server.jar -conf config/local.json
 ```
 
 ### Run the GUI
