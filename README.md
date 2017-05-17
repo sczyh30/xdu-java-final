@@ -1,5 +1,7 @@
 # XDU Java Final Project
 
+[![Build Status](https://travis-ci.org/sczyh30/xdu-java-final.svg?branch=master)](https://travis-ci.org/sczyh30/xdu-java-final)
+
 This is the repository of XDU Java Final Project (2017) - PIM.
 
 ## Compile/Run
