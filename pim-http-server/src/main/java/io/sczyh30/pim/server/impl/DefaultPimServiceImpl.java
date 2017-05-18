@@ -1,4 +1,4 @@
-package io.sczyh30.pim.service.impl;
+package io.sczyh30.pim.server.impl;
 
 import io.sczyh30.pim.common.date.DateUtils;
 import io.sczyh30.pim.common.util.Utils;
@@ -7,7 +7,7 @@ import io.sczyh30.pim.entity.PIMContact;
 import io.sczyh30.pim.entity.PIMEntity;
 import io.sczyh30.pim.entity.PIMNote;
 import io.sczyh30.pim.entity.PIMTodo;
-import io.sczyh30.pim.service.PimService;
+import io.sczyh30.pim.server.PimService;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Vertx;
 import io.vertx.rxjava.ext.mongo.MongoClient;

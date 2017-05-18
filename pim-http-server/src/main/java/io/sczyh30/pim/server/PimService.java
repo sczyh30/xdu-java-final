@@ -1,4 +1,4 @@
-package io.sczyh30.pim.service;
+package io.sczyh30.pim.server;
 
 import io.sczyh30.pim.entity.PIMAppointment;
 import io.sczyh30.pim.entity.PIMContact;

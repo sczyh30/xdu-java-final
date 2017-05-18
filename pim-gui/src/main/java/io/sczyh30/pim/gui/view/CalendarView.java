@@ -38,8 +38,7 @@ public class CalendarView extends BorderPane {
     header.setMaxWidth(Double.MAX_VALUE);
     header.getStyleClass().add("calendar-header");
 
-    this.month.addListener((obs, oldMonth, newMonth) ->
-      rebuildCalendar());
+    this.month.addListener((obs, oldMonth, newMonth) -> rebuildCalendar());
 
     setTop(header);
     setCenter(calendar);

@@ -1,11 +1,10 @@
-package io.sczyh30.pim;
+package io.sczyh30.pim.server;
 
 import io.sczyh30.pim.common.RestfulApiVerticle;
 import io.sczyh30.pim.common.date.DateUtils;
 import io.sczyh30.pim.common.util.Utils;
 import io.sczyh30.pim.entity.PIMEntity;
-import io.sczyh30.pim.service.PimService;
-import io.sczyh30.pim.service.impl.DefaultPimServiceImpl;
+import io.sczyh30.pim.server.impl.DefaultPimServiceImpl;
 import io.vertx.core.Future;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;

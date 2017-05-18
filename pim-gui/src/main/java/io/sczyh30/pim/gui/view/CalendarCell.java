@@ -43,9 +43,9 @@ public class CalendarCell extends GridPane {
     if (!r.isEmpty()) {
       int size = r.size();
       if (size == 1) {
-        Platform.runLater(() -> itemLabel.setText(getDisplayFromEntity(r.get(0))));
+        itemLabel.setText(getDisplayFromEntity(r.get(0)));
       } else {
-        Platform.runLater(() -> itemLabel.setText(String.format("Total %d items", r.size())));
+        itemLabel.setText(String.format("Total %d items", r.size()));
       }
       itemLabel.setOnMouseClicked(this::handleItemDbClick);
     }
